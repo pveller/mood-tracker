@@ -10,20 +10,20 @@ describe UPSA do
 	end
 
 	it 'can log me in using my credentials' do
-		success = @upsa.login('Pavel_Veller', 'Epam20124!')
+		success = @upsa.login(ENV['UPSA_LOGIN'], ENV['UPSA_PASSWORD'])
 
 		expect(success).to be_true
 	end
 
 	it 'should return false if can\'t login' do
-		success = @upsa.login('Pavel_Veller', 'wrongpassword')
+		success = @upsa.login('nosuchuser', 'wrongpassword')
 
 		expect(success).to be_false
 	end
 
 	context 'logged in' do
 		before :each do
-			@upsa.login('Pavel_Veller', 'Epam20124!')
+			@upsa.login(ENV['UPSA_LOGIN'], ENV['UPSA_PASSWORD'])
 		end
 
 		it 'should search for a given name and return results' do

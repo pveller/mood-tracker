@@ -18,7 +18,7 @@ get '/upsa/:name' do
 
 	if (!profile)
 		@@upsa ||= UPSA.new
-		@@upsa.login('Pavel_Veller', 'Epam20124!') unless @@upsa.ready?
+		@@upsa.login(ENV['UPSA_LOGIN'], ENV['UPSA_PASSWORD']) unless @@upsa.ready?
 		
 		person = @@upsa.find_person(params[:name])
 		profile = @@upsa.fetch_profile(person)
