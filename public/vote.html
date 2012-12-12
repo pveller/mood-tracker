@@ -1,0 +1,141 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>How do you feel today, Epamer?</title>
+  <style type="text/css">
+
+body {
+  background: #ececec;
+}
+
+#main {
+  width: 400px;
+  height: 100%;
+  margin-left: auto ;
+  margin-right: auto;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.text {text-shadow: 0 1px #fff;}
+
+body {
+   margin:0; 
+   padding:0;
+   text-align:center;
+   font-family:Helvetica,Arial,'DejaVu Sans','Liberation Sans',Freesans,sans-serif;
+}
+
+form { position:relative; }
+
+fieldset { margin: 0; box-shadow: 0 0 15px #fff; }
+
+.awesome, .awesome:visited {
+        width: 94%;
+	background: #222; 
+	display: inline-block; 
+	padding: 5px 10px 6px; 
+	color: #fff; 
+	text-decoration: none;
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	position: relative;
+	cursor: pointer;
+}
+
+.awesome:hover				{ background-color: #111; color: #fff; }
+.awesome:active				{ top: 1px; }
+.large.awesome, .large.awesome:visited 	{ font-size: 16px; padding: 8px 14px 9px; }
+.blue.awesome, .blue.awesome:visited	{ background-color: #2daebf; }
+.blue.awesome:hover			{ background-color: #007d9a; }
+
+#selectable .mood-select-li-7 { background: #fea68c; }
+#selectable .mood-select-li-7.ui-selected { background: #fd5727; color: white; text-shadow: none;}
+#selectable .mood-select-li-6 { background: #febaa5; }
+#selectable .mood-select-li-6.ui-selected { background: #fd6b40; color: white; text-shadow: none;}
+#selectable .mood-select-li-5 { background: #fecdbf; }
+#selectable .mood-select-li-5.ui-selected { background: #fe7f59; color: white; text-shadow: none;}
+
+#selectable .mood-select-li-4 { background: #f0ffbf; }
+#selectable .mood-select-li-4.ui-selected { background: #fdbb0b; color: white; text-shadow: none;}
+
+#selectable .mood-select-li-3 { background: #d0febf; }
+#selectable .mood-select-li-3.ui-selected { background: #3bd302; color: white; text-shadow: none;}
+#selectable .mood-select-li-2 { background: #bdfea5; }
+#selectable .mood-select-li-2.ui-selected { background: #30ac01; color: white; text-shadow: none;}
+#selectable .mood-select-li-1 { background: #abfe8c; }
+#selectable .mood-select-li-1.ui-selected { background: #258501; color: white; text-shadow: none;}
+
+#selectable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+#selectable li { margin: 3px; padding: 5px; font-size: 16px; height: 18px; cursor: pointer;}
+.ui-widget-content { border: 1px solid #AAA; color: #222; }
+
+  </style>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script>
+    $(function() {
+        $( "#selectable" ).selectable({
+            stop: function() {
+                $('.ui-selected').not(':first').removeClass('ui-selected');                
+                var form_result = $( "#mood_id" );
+                $( ".ui-selected", this ).each(function() {
+                    var index = $( "#selectable li" ).index( this );                    
+                    form_result.val(index + 1);
+                });
+            }
+        });
+    });
+    $(function(){
+       $("#mood_form").submit(function(){
+        var m = $("#mood_id").val();
+        if(typeof(m) === 'undefined' || m == null || m === '') {
+	   return false;
+        }
+        return true;
+       });
+       var param = location.search;
+       if(typeof(param) !== 'undefined' && param != null && param !== '') {
+           param = unescape(param);
+           var p = 'personName=';
+           param = param.substring(Math.abs(p.length + 1 - 8));
+           $( "#name" ).val(param);
+       }
+     });
+    </script>
+</head>
+<body>
+  <div id="main">
+    <form id="mood_form" action="/submit" method="GET">
+       <fieldset>
+       <input type="hidden" id="name" name="name" value="" />
+       <input type="hidden" id="mood_id" name="mood" value="" />
+       <input type="hidden" id="bookmark_id" name="bookmark" value="true" />
+    <ul id="selectable">
+       <li class="ui-widget-content mood-select-li-1 text">Pumped!</li>
+       <li class="ui-widget-content mood-select-li-2 text">Happy</li>
+       <li class="ui-widget-content mood-select-li-3 text">Cool</li>
+       <li class="ui-widget-content mood-select-li-4 text">OK</li>
+       <li class="ui-widget-content mood-select-li-5 text">Frustrated</li>
+       <li class="ui-widget-content mood-select-li-6 text">Totally Not Happy</li>
+       <li class="ui-widget-content mood-select-li-7 text">About To Resign</li>
+    </ul>
+    </fieldset>
+    <div style="padding-top: 12px;" />
+    <a href="javascript:void(0)" onclick="$('#mood_form').submit();" class="large blue awesome">Tell Us About Your Mood</a>
+    </form>
+  </div>
+</body>
+</html>

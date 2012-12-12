@@ -1,0 +1,35 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Upsamarklet</title>
+  <style type="text/css">
+body {
+background-image -ms-linear-gradient(top, #FFFFFF 0%, #00A3EF 100%);
+background-image: -moz-linear-gradient(top, #FFFFFF 0%, #00A3EF 100%);
+background-image: -o-linear-gradient(top, #FFFFFF 0%, #00A3EF 100%);
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #00A3EF));
+background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #00A3EF 100%);
+background-image: linear-gradient(to bottom, #FFFFFF 0%, #00A3EF 100%);
+}
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+	margin:50px 0px; padding:0px;
+	text-align:center;
+	}
+  </style>
+</head>
+<body>
+  <div id="main">
+    <center>
+    <p>Drag the following link on your toolbar, open UPSA and enjoy ;)</p><br />
+    <a onclick="alert('Drag me to the bookmarks bar'); return false;" href="javascript:void((function(d){var e=d.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://epam-mood.herokuapp.com/js/bookmarklet.js?r='+Math.random()*99999999);d.body.appendChild(e)})(document));" style="cursor:move">How do you feel today?</a>
+</center>
+  </div>
+</body>
+</html>

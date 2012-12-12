@@ -1,0 +1,223 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>How do you feel today?</title>
+  <style type="text/css">
+
+body {
+  background-image: -ms-linear-gradient(top, #8bd9ff 0%, #FFFFFF 100%);
+  background-image: -moz-linear-gradient(top, #8bd9ff 0%, #FFFFFF 100%);
+  background-image: -o-linear-gradient(top, #8bd9ff 0%, #FFFFFF 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #8bd9ff), color-stop(1, #FFFFFF));
+  background-image: -webkit-linear-gradient(top, #8bd9ff 0%, #FFFFFF 100%);
+  background-image: linear-gradient(to bottom, #8bd9ff 0%, #FFFFFF 100%);
+}
+
+#main {
+  width: 400px;
+  height: 100%;
+  margin-left: auto ;
+  margin-right: auto;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.text {text-shadow: 0 1px #fff;}
+
+body {
+   margin:0; 
+   padding:0;
+   text-align:center;
+   font-family:Helvetica,Arial,'DejaVu Sans','Liberation Sans',Freesans,sans-serif;
+}
+
+form { position:relative; }
+
+input {
+  display: block;
+  width: 95%;
+  border-style: solid;
+  border-color: #AAA;
+  border-width: 1px;
+  padding: 5px;
+  height: 18px;
+  margin: 3px;
+  text-align: center;
+}
+
+fieldset { margin: 0; box-shadow: 0 0 15px #fff; }
+
+.awesome, .awesome:visited {
+        width: 94%;
+	background: #222; 
+	display: inline-block; 
+	padding: 5px 10px 6px; 
+	color: #fff; 
+	text-decoration: none;
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	position: relative;
+	cursor: pointer;
+}
+
+.awesome:hover				{ background-color: #111; color: #fff; }
+.awesome:active				{ top: 1px; }
+.large.awesome, .large.awesome:visited 	{ font-size: 16px; padding: 8px 14px 9px; }
+.blue.awesome, .blue.awesome:visited	{ background-color: #2daebf; }
+.blue.awesome:hover			{ background-color: #007d9a; }
+
+#selectable .mood-select-li-7 { background: #fea68c; }
+#selectable .mood-select-li-7.ui-selected { background: #fd5727; color: white; text-shadow: none;}
+#selectable .mood-select-li-6 { background: #febaa5; }
+#selectable .mood-select-li-6.ui-selected { background: #fd6b40; color: white; text-shadow: none;}
+#selectable .mood-select-li-5 { background: #fecdbf; }
+#selectable .mood-select-li-5.ui-selected { background: #fe7f59; color: white; text-shadow: none;}
+
+#selectable .mood-select-li-4 { background: #f0ffbf; }
+#selectable .mood-select-li-4.ui-selected { background: #fdbb0b; color: white; text-shadow: none;}
+
+#selectable .mood-select-li-3 { background: #d0febf; }
+#selectable .mood-select-li-3.ui-selected { background: #3bd302; color: white; text-shadow: none;}
+#selectable .mood-select-li-2 { background: #bdfea5; }
+#selectable .mood-select-li-2.ui-selected { background: #30ac01; color: white; text-shadow: none;}
+#selectable .mood-select-li-1 { background: #abfe8c; }
+#selectable .mood-select-li-1.ui-selected { background: #258501; color: white; text-shadow: none;}
+
+#selectable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+#selectable li { margin: 3px; padding: 5px; font-size: 16px; height: 18px; cursor: pointer;}
+.ui-widget-content { border: 1px solid #AAA; color: #222; }
+
+  </style>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+
+    <script src="/js/moment.js"></script>
+    <script src="/js/jquery.mongohq.js?v=1.0"></script>
+    <script src="/js/collector.js?v=1.0"></script>
+    <script>
+    $(function() {
+        $( "#selectable" ).selectable({
+            stop: function() {
+                $('.ui-selected').not(':first').removeClass('ui-selected');
+                var result = $( "#select-result" ).empty();
+                var form_result = $( "#mood_id" );
+                $( ".ui-selected", this ).each(function() {
+                    var index = $( "#selectable li" ).index( this );
+                    result.append( $(this).text() );
+                    form_result.val(Math.abs(index + 1 - 8));
+                });
+            }
+        });
+    });
+
+    $(function(){
+       $("#name").focus();
+    });
+
+    var hotsouth = hotsouth || {};
+
+    hotsouth.c = new hotsouth.Collector();
+    
+    hotsouth.validate = function() {
+      var name = $("#name").val();
+      if(typeof(name) === 'undefined' || name == null || name === '') {
+         $("#name").css('border-color', 'red').css('border-width', '2px');
+         $("#name").focus();
+         return false;
+      }
+      var reg = new RegExp("(\\w+)(\\s+)(\\w+)");
+      if(!reg.test(name)) {
+         $("#name").css('border-color', 'red').css('border-width', '2px');
+         $("#name").focus();
+         return false;
+      }
+      var m = $("#mood_id").val();
+      if(typeof(m) === 'undefined' || m == null || m === '') {
+        return false;
+      }
+
+      return true;
+    };
+
+
+    hotsouth.submit = function() {
+      if (hotsouth.validate()) {
+        // get the profile from UPSA by name
+        var name = $("#name").val();
+        var profile = null;
+        $.ajax({
+          url: '/upsa/' + name,
+          async: false,
+          type: 'GET',
+          dataType: 'json',
+          success: function(data, status, xhr) {
+            if (data.name) {
+              console.log('Successfully resolved [' + name + '] to => ' + JSON.stringify(data));
+              profile = data;
+            } else {
+              console.log('Cannot find [' + name + '] in UPSA');  
+            }
+          },
+          error: function(xhr, status, error) {
+            console.log('Failed to resolve [' + name + '] => ' + status + ':' + error);
+          }
+        });
+
+        if (profile) {
+          // submit to mongohq
+          profile.mood = $("#mood_id").val();
+          if (hotsouth.c.collect(profile)) {
+            document.location.replace('/map.html');
+          } else {
+            $('#mongo_error').dialog();
+          }
+        } else {
+          $('#upsa_error').dialog();
+        }
+
+      }
+    };
+    </script>
+</head>
+<body>
+  <div id="main">
+    <p class="text"><span>How do you feel today?</span> <u><span id="select-result"></span></u></p>
+       <fieldset>
+       <label for="name" class="text">Full Name:</label>
+       <input type="text" id="name" name="name" size="500" />
+       <input type="hidden" id="mood_id" name="mood" value="" />
+    <ul id="selectable">
+       <li class="ui-widget-content mood-select-li-1 text">Pumped!</li>
+       <li class="ui-widget-content mood-select-li-2 text">Happy</li>
+       <li class="ui-widget-content mood-select-li-3 text">Cool</li>
+       <li class="ui-widget-content mood-select-li-4 text">OK</li>
+       <li class="ui-widget-content mood-select-li-5 text">Frustrated</li>
+       <li class="ui-widget-content mood-select-li-6 text">Totally Not Happy</li>
+       <li class="ui-widget-content mood-select-li-7 text">About To Resign</li>
+    </ul>
+    </fieldset>
+    <div style="padding-top: 12px;" />
+
+    <a href="javascript:void(0)" onclick="hotsouth.submit();" class="large blue awesome">Tell Us About Your Mood</a>
+
+    <div id="upsa_error" title="Basic dialog" style="display: none">
+        <p>Failed to find your profile in UPSA. <br/> Please check the spelling of your name and try again.</p>
+    </div>
+    <div id="mongo_error" title="Basic dialog" style="display: none">
+        <p>Failed to save your response. <br/> Would you please try again?</p>
+    </div>
+  </div>
+</body>
+</html>
