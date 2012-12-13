@@ -104,6 +104,10 @@ fieldset { margin: 0; box-shadow: 0 0 15px #fff; }
         });
     });
 
+    var hotsouth = hotsouth || {};
+
+    hotsouth.c = new hotsouth.Collector();
+
     hotsouth.validate = function() {
       var m = $("#mood_id").val();
       if(typeof(m) === 'undefined' || m == null || m === '') {
@@ -118,8 +122,8 @@ fieldset { margin: 0; box-shadow: 0 0 15px #fff; }
        var param = location.search;
        if(typeof(param) !== 'undefined' && param != null && param !== '') {
            param = unescape(param);
-           var p = 'personName=';
-           param = param.substring(Math.abs(p.length + 1 - 8));
+           var p = 'name=';
+           param = param.substring(Math.abs(p.length + 1));
            $( "#name" ).val(param);
        }
      });
@@ -182,7 +186,7 @@ fieldset { margin: 0; box-shadow: 0 0 15px #fff; }
     </fieldset>
     <div style="padding-top: 12px;" />
 
-    <a href="javascript:void(0)" onclick="$('#mood_form').submit();" class="large blue awesome">Record my heartbeat</a>
+    <a href="javascript:void(0)" onclick="hotsouth.submit();" class="large blue awesome">Record my heartbeat</a>
 
     <!--/form-->
 

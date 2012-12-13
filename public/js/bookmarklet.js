@@ -364,7 +364,7 @@
         '</div>',
         '<span id="{{k}}_embedContainer">',
         '<div style="padding-top: 60px;" />',
-        '<iframe id="{{k}}_voteFrame" height="310" width="410" frameborder="0" style="overflow: hide; border: 1px green black;" scrolling="no" src="https://epam-mood.herokuapp.com/vote.html?personName={{personName}}" />',
+        '<iframe id="{{k}}_voteFrame" height="310" width="410" frameborder="0" style="overflow: hide; border: 1px green black;" scrolling="no" src="https://epam-mood.herokuapp.com/vote.html?name={{personName}}" />',
         '</span>',
       '</div>'
     ].join('')
