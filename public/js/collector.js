@@ -30,7 +30,7 @@ var hotsouth = {};
 		data.month = date.format('MM');
 		data.date = date.format('YYYYMMDD');
 
-		var regex = new RegExp('^\\w+,\\s(\\w+),\\s(\\w+),');
+		var regex = new RegExp('^[\\w\\s]+,\\s([\\w\\s]+),\\s([\\w+\\s]+),');
 		var loc = regex.exec(data.location);
 		console.log(loc);
 		data.country = loc[1];
