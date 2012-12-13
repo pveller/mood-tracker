@@ -7,6 +7,10 @@ require 'uri'
 set :logging, true
 set :public_folder, 'public'
 
+before do
+	headers "X-Frame-Options" => "GOFORIT"
+end
+
 get '/' do
 	redirect '/index.html'
 end
