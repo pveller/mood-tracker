@@ -310,6 +310,9 @@
 		$.mongohq.documents.all({
 			db_name: 'mood',
 			col_name: 'raw',
+			data:  {
+				limit: 50000
+			},
 			success: function(result) {
 				console.log('Successfully received data from MongoHQ: ' + result.length);
 				data = result;
