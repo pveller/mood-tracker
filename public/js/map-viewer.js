@@ -186,6 +186,11 @@
 			zoom: 10,
 			headcount: 128
 		},
+		Saratov: {
+			geo: new google.maps.LatLng(51.5333, 46.0333),
+			zoom: 10,
+			headcount: 200
+		},
 		Seattle: {
 			geo: new google.maps.LatLng(47.6097, -122.3331),
 			zoom: 10,
