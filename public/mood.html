@@ -116,7 +116,7 @@ fieldset { margin: 0; box-shadow: 0 0 15px #fff; }
                 $( ".ui-selected", this ).each(function() {
                     var index = $( "#selectable li" ).index( this );
                     result.append( $(this).text() );
-                    form_result.val(Math.abs(index + 1 - 8));
+                    form_result.val( this.value );
                 });
             }
         });
@@ -199,13 +199,13 @@ fieldset { margin: 0; box-shadow: 0 0 15px #fff; }
        <input type="text" id="name" name="name" size="500" />
        <input type="hidden" id="mood_id" name="mood" value="" />
     <ul id="selectable">
-       <li class="ui-widget-content mood-select-li-1 text">Pumped!</li>
-       <li class="ui-widget-content mood-select-li-2 text">Happy</li>
-       <li class="ui-widget-content mood-select-li-3 text">Cool</li>
-       <li class="ui-widget-content mood-select-li-4 text">OK</li>
-       <li class="ui-widget-content mood-select-li-5 text">Frustrated</li>
-       <li class="ui-widget-content mood-select-li-6 text">Totally Not Happy</li>
-       <li class="ui-widget-content mood-select-li-7 text">About To Resign</li>
+       <li class="ui-widget-content mood-select-li-1 text" value="10">Pumped!</li>
+       <li class="ui-widget-content mood-select-li-2 text" value="8">Happy</li>
+       <li class="ui-widget-content mood-select-li-3 text" value="7">Cool</li>
+       <li class="ui-widget-content mood-select-li-4 text" value="6">OK</li>
+       <li class="ui-widget-content mood-select-li-5 text" value="4">Frustrated</li>
+       <li class="ui-widget-content mood-select-li-6 text" value="2">Totally Not Happy</li>
+       <li class="ui-widget-content mood-select-li-7 text" value="1">About To Resign</li>
     </ul>
     </fieldset>
     <div style="padding-top: 12px;" />
