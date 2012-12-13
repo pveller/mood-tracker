@@ -93,19 +93,23 @@ fieldset { margin: 0; box-shadow: 0 0 15px #fff; }
                 var form_result = $( "#mood_id" );
                 $( ".ui-selected", this ).each(function() {
                     var index = $( "#selectable li" ).index( this );                    
-                    form_result.val(index + 1);
+                    form_result.val( this.value );
                 });
             }
         });
     });
+
+    hotsouth.validate = function() {
+      var m = $("#mood_id").val();
+      if(typeof(m) === 'undefined' || m == null || m === '') {
+        return false;
+      }
+
+      return true;
+    };
+
+
     $(function(){
-       $("#mood_form").submit(function(){
-        var m = $("#mood_id").val();
-        if(typeof(m) === 'undefined' || m == null || m === '') {
-	   return false;
-        }
-        return true;
-       });
        var param = location.search;
        if(typeof(param) !== 'undefined' && param != null && param !== '') {
            param = unescape(param);
@@ -114,28 +118,75 @@ fieldset { margin: 0; box-shadow: 0 0 15px #fff; }
            $( "#name" ).val(param);
        }
      });
+
+    hotsouth.submit = function() {
+      if (hotsouth.validate()) {
+        // get the profile from UPSA by name
+        var name = $("#name").val();
+        var profile = null;
+        $.ajax({
+          url: '/upsa/' + name,
+          async: false,
+          type: 'GET',
+          dataType: 'json',
+          success: function(data, status, xhr) {
+            if (data.name) {
+              console.log('Successfully resolved [' + name + '] to => ' + JSON.stringify(data));
+              profile = data;
+            } else {
+              console.log('Cannot find [' + name + '] in UPSA');  
+            }
+          },
+          error: function(xhr, status, error) {
+            console.log('Failed to resolve [' + name + '] => ' + status + ':' + error);
+          }
+        });
+
+        if (profile) {
+          // submit to mongohq
+          profile.mood = $("#mood_id").val();
+          if (hotsouth.c.collect(profile)) {
+            document.location.replace('/thankyou.html');
+          } else {
+            $('#mongo_error').dialog();
+          }
+        } else {
+          $('#upsa_error').dialog();
+        }
+
+      }
+    };
     </script>
 </head>
 <body>
   <div id="main">
-    <form id="mood_form" action="/submit" method="GET">
+    <!--form id="mood_form" action="/submit" method="GET"-->
        <fieldset>
        <input type="hidden" id="name" name="name" value="" />
        <input type="hidden" id="mood_id" name="mood" value="" />
-       <input type="hidden" id="bookmark_id" name="bookmark" value="true" />
+       <!--input type="hidden" id="bookmark_id" name="bookmark" value="true" /-->
     <ul id="selectable">
-       <li class="ui-widget-content mood-select-li-1 text">Pumped!</li>
-       <li class="ui-widget-content mood-select-li-2 text">Happy</li>
-       <li class="ui-widget-content mood-select-li-3 text">Cool</li>
-       <li class="ui-widget-content mood-select-li-4 text">OK</li>
-       <li class="ui-widget-content mood-select-li-5 text">Frustrated</li>
-       <li class="ui-widget-content mood-select-li-6 text">Totally Not Happy</li>
-       <li class="ui-widget-content mood-select-li-7 text">About To Resign</li>
+       <li class="ui-widget-content mood-select-li-1 text" value="10">Pumped!</li>
+       <li class="ui-widget-content mood-select-li-2 text" value="8">Happy</li>
+       <li class="ui-widget-content mood-select-li-3 text" value="7">Cool</li>
+       <li class="ui-widget-content mood-select-li-4 text" value="6">OK</li>
+       <li class="ui-widget-content mood-select-li-5 text" value="4">Frustrated</li>
+       <li class="ui-widget-content mood-select-li-6 text" value="2">Totally Not Happy</li>
+       <li class="ui-widget-content mood-select-li-7 text" value="1">About To Resign</li>
     </ul>
     </fieldset>
     <div style="padding-top: 12px;" />
-    <a href="javascript:void(0)" onclick="$('#mood_form').submit();" class="large blue awesome">Tell Us About Your Mood</a>
-    </form>
+
+    <a href="javascript:void(0)" onclick="$('#mood_form').submit();" class="large blue awesome">Record my heartbeat</a>
+
+    <!--/form-->
+
+    <div id="upsa_error" title="Basic dialog" style="display: none">
+        <p>Failed to find your profile in UPSA. <br/> Please check the spelling of your name and try again.</p>
+    </div>
+    <div id="mongo_error" title="Basic dialog" style="display: none">
+        <p>Failed to save your response. <br/> Would you please try again?</p>
+    </div>
   </div>
 </body>
 </html>
