@@ -29,6 +29,9 @@
           $.mv.mode = 'real';
           $.mv.timer = setTimeout(realtime, 1000);
         } else if (mode === 'replay' && $.mv.mode !== 'replay') {
+          if ($.mv.timer) {
+            clearTimeout($.mv.timer);
+          }
           $.mv.mode = 'replay';
           $.mv.clear();
           replay();
