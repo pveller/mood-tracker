@@ -1,9 +1,15 @@
 <html>
 <head>
   <title>Thank You!</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script type="text/javascript">
+  	var show_heartbeat = function() {
+  		window.location.href = 'http://' + window.location.host + '/map.html';
+  	}
+  </script>
 </head>
 <body>
 <h1>Thank You!</h1>
-<a href="/map.html" class="large blue awesome" target="_blank">To EPAM Heartbeat</a>
+<a id="to_map" href="#" onclick="show_heartbeat(); return false;" class="large blue awesome" target="_blank">To EPAM Heartbeat</a>
 </body>
 </html>
